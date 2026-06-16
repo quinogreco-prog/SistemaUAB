@@ -15,16 +15,13 @@ namespace SistemaUAB.Presentacion
 
             // Configuración básica de la ventana principal
             this.Text = $"Sistema UAB - Panel Principal [{this.tipo_usuario}]";
-            this.Size = new Size(1000, 650);
-            this.StartPosition = FormStartPosition.CenterScreen;
-
             CargarTarjetaSegunRol();
         }
 
 
         private void CargarTarjetaSegunRol()
         {
-            // Limpiamos cualquier control previo para evitar duplicados
+            // Limpiar el panel
             this.tableLayoutPanel1.Controls.Clear();
 
             // Evaluamos el rol e inyectamos el User Control correspondiente
@@ -32,26 +29,26 @@ namespace SistemaUAB.Presentacion
             {
                 case "Admin":
                     UcTarjetaAdmin tarjetaAdmin = new UcTarjetaAdmin();
-                    tarjetaAdmin.Dock = DockStyle.Fill; // Hace que se adapte al tamaño de la celda
-                    this.tableLayoutPanel1.Controls.Add(tarjetaAdmin, 0, 0);
+                    tarjetaAdmin.Dock = DockStyle.Fill;
+                    this.tableLayoutPanel1.Controls.Add(tarjetaAdmin);
                     break;
 
                 case "Docente":
                     UcTarjetaDocente tarjetaDocente = new UcTarjetaDocente();
                     tarjetaDocente.Dock = DockStyle.Fill;
-                    this.tableLayoutPanel1.Controls.Add(tarjetaDocente, 0, 0);
+                    this.tableLayoutPanel1.Controls.Add(tarjetaDocente);
                     break;
 
                 case "Estudiante":
                     UcTarjetaEstudiante tarjetaEstudiante = new UcTarjetaEstudiante();
                     tarjetaEstudiante.Dock = DockStyle.Fill;
-                    this.tableLayoutPanel1.Controls.Add(tarjetaEstudiante, 0, 0);
+                    this.tableLayoutPanel1.Controls.Add(tarjetaEstudiante);
                     break;
 
                 case "Miembro de Iglesia":
                     UcTarjetaMiembro tarjetaMiembro = new UcTarjetaMiembro();
                     tarjetaMiembro.Dock = DockStyle.Fill;
-                    this.tableLayoutPanel1.Controls.Add(tarjetaMiembro, 0, 0);
+                    this.tableLayoutPanel1.Controls.Add(tarjetaMiembro);
                     break;
 
                 default:

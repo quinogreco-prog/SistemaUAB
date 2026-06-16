@@ -1,6 +1,6 @@
-﻿namespace SistemaUAB.Presentacion
+﻿namespace SistemaUAB.Presentacion.admin_tools
 {
-    partial class UcTarjetaMiembro
+    partial class UsuariosControl
     {
         /// <summary> 
         /// Variable del diseñador necesaria.
@@ -34,21 +34,19 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(38, 54);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(58, 69);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 13);
+            this.label1.Size = new System.Drawing.Size(48, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "MIEMBRO";
+            this.label1.Text = "Usuarios";
             // 
-            // UcTarjetaMiembro
+            // UsuariosControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.Name = "UcTarjetaMiembro";
-            this.Size = new System.Drawing.Size(751, 440);
+            this.Name = "UsuariosControl";
+            this.Size = new System.Drawing.Size(714, 268);
             this.ResumeLayout(false);
             this.PerformLayout();
 

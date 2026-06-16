@@ -46,12 +46,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataLayers\Class1.cs" />
     <Compile Include="DataLayers\Conexion.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentacion\admin_tools\PanelControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Presentacion\admin_tools\PanelControl.Designer.cs">
+      <DependentUpon>PanelControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentacion\admin_tools\ReportesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Presentacion\admin_tools\ReportesControl.Designer.cs">
+      <DependentUpon>ReportesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentacion\admin_tools\ReservasControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Presentacion\admin_tools\ReservasControl.Designer.cs">
+      <DependentUpon>ReservasControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentacion\admin_tools\UsuariosControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Presentacion\admin_tools\UsuariosControl.Designer.cs">
+      <DependentUpon>UsuariosControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Presentacion\FormLogin.cs">
       <SubType>Form</SubType>
@@ -91,6 +116,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Presentacion\admin_tools\PanelControl.resx">
+      <DependentUpon>PanelControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentacion\admin_tools\ReportesControl.resx">
+      <DependentUpon>ReportesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentacion\admin_tools\ReservasControl.resx">
+      <DependentUpon>ReservasControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentacion\admin_tools\UsuariosControl.resx">
+      <DependentUpon>UsuariosControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Presentacion\FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
@@ -131,6 +168,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Presentacion\docente_tools\" />
+    <Folder Include="Presentacion\estudiante_tools\" />
+    <Folder Include="Presentacion\miembro_tools\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

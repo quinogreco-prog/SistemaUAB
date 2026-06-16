@@ -1,5 +1,4 @@
-﻿using SistemaReservasUAB;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SistemaUAB.DataLayers;
 
 namespace SistemaUAB.Presentacion
 {
@@ -75,9 +75,6 @@ namespace SistemaUAB.Presentacion
 
                 if (credencialesValidas)
                 {
-                    MessageBox.Show($"Bienvenido {usuario}. Tipo: {tipo_usuario}",
-                        "Login Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                     // Abrir la ventana principal con el tipo de usuario
                     this.Hide(); // Ocultar el formulario de login
 
@@ -112,7 +109,7 @@ namespace SistemaUAB.Presentacion
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            
+            this.Close();
         }
     }
 }
