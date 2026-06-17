@@ -8,11 +8,13 @@ namespace SistemaUAB.Presentacion
     {
         private string tipo_usuario;
         private UserControl userControlActual;
+        private string idEstudiante;
 
-        public Principal(string tipo_usuario)
+        public Principal(string tipo_usuario, string idEstudiante)
         {
             InitializeComponent();
             this.tipo_usuario = tipo_usuario;
+            this.idEstudiante = idEstudiante;
             this.Text = $"Sistema UAB - Panel Principal [{this.tipo_usuario}]";
 
             // Cargar el UserControl correspondiente
@@ -42,7 +44,7 @@ namespace SistemaUAB.Presentacion
                         userControlActual = new UcTarjetaDocente();
                         break;
                     case "Estudiante":
-                        userControlActual = new UcTarjetaEstudiante();
+                        userControlActual = new UcTarjetaEstudiante(int.Parse(this.idEstudiante), panelContenedor);
                         break;
                     case "Miembro de Iglesia":
                         userControlActual = new UcTarjetaMiembro();

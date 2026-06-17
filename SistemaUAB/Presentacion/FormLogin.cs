@@ -14,6 +14,8 @@ namespace SistemaUAB.Presentacion
 {
     public partial class FormLogin : Form
     {
+        private string idUsuario;
+
         public FormLogin()
         {
             InitializeComponent();
@@ -42,7 +44,7 @@ namespace SistemaUAB.Presentacion
                 {
                     conexion.Open();
 
-                    string query = @"SELECT TipoUsuario, Estado 
+                    string query = @"SELECT TipoUsuario, Estado, IdUsuario 
                            FROM Usuario 
                            WHERE NombreUsuario = @usuario AND Contrasena = @contrasena";
                         
@@ -61,6 +63,7 @@ namespace SistemaUAB.Presentacion
                                 {
                                     credencialesValidas = true;
                                     tipo_usuario = reader["TipoUsuario"].ToString();
+                                    idUsuario = reader["IdUsuario"].ToString();
                                 }
                                 else
                                 {
@@ -76,7 +79,7 @@ namespace SistemaUAB.Presentacion
                 if (credencialesValidas)
                 {
                     this.Hide(); // Ocultar FormLogin
-                    Principal ventanaPrincipal = new Principal(tipo_usuario);
+                    Principal ventanaPrincipal = new Principal(tipo_usuario, idUsuario);
 
                     // Suscribirse al evento de cierre de Principal
                     ventanaPrincipal.FormClosed += (s, args) =>
