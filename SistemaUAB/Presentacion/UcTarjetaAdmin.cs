@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -12,10 +13,17 @@ namespace SistemaUAB.Presentacion
         public UcTarjetaAdmin()
         {
             InitializeComponent();
-            ConfigurarTimer();
 
-            // Asegurar que el evento del botón Cerrar Sesión esté enlazado
-            this.btnCerrarSesion.Click += new EventHandler(btnCerrarSesion_Click);
+            if (!EstaEnModoDisenio())
+            {
+                ConfigurarTimer();
+            }
+        }
+
+        private bool EstaEnModoDisenio()
+        {
+            return LicenseManager.UsageMode == LicenseUsageMode.Designtime ||
+                   (Site != null && Site.DesignMode);
         }
 
         /// <summary>
@@ -61,24 +69,29 @@ namespace SistemaUAB.Presentacion
         /// </summary>
         private void btnCerrarSesion_Click(object sender, EventArgs e)
         {
-            DialogResult resultado = MessageBox.Show(
-                "¿Está seguro de que desea cerrar sesión?",
-                "Cerrar Sesión",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            );
-
-            if (resultado == DialogResult.Yes)
+            try
             {
-                // Detener el timer antes de cerrar
-                timerAutoRefresh.Enabled = false;
+                // Detener el timer SOLO si existe
+                if (timerAutoRefresh != null)
+                {
+                    timerAutoRefresh.Enabled = false;
+                    timerAutoRefresh.Stop();
+                }
 
-                // Cerrar el formulario contenedor
+                // Cerrar el formulario contenedor (Principal)
                 Form parentForm = this.FindForm();
-                if (parentForm != null)
+                if (parentForm != null && !parentForm.IsDisposed)
                 {
                     parentForm.Close();
                 }
+            }
+            catch (Exception ex)
+            {
+                // Si algo falla, al menos mostramos el error
+                MessageBox.Show($"Error al cerrar sesión: {ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 

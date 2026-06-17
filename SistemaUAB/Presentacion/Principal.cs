@@ -7,53 +7,80 @@ namespace SistemaUAB.Presentacion
     public partial class Principal : Form
     {
         private string tipo_usuario;
+        private UserControl userControlActual;
 
-        public Principal(string tipo_usuario) // Recibe: 'Admin', 'Docente', 'Estudiante', 'Miembro de Iglesia'
+        public Principal(string tipo_usuario)
         {
             InitializeComponent();
             this.tipo_usuario = tipo_usuario;
-
-            // Configuración básica de la ventana principal
             this.Text = $"Sistema UAB - Panel Principal [{this.tipo_usuario}]";
+
+            // Cargar el UserControl correspondiente
             CargarTarjetaSegunRol();
         }
 
-
         private void CargarTarjetaSegunRol()
         {
-            // Limpiar el panel
-            this.tableLayoutPanel1.Controls.Clear();
-
-            // Evaluamos el rol e inyectamos el User Control correspondiente
-            switch (tipo_usuario)
+            try
             {
-                case "Admin":
-                    UcTarjetaAdmin tarjetaAdmin = new UcTarjetaAdmin();
-                    tarjetaAdmin.Dock = DockStyle.Fill;
-                    this.tableLayoutPanel1.Controls.Add(tarjetaAdmin);
-                    break;
+                // Limpiar el panel
+                panelContenedor.Controls.Clear();
 
-                case "Docente":
-                    UcTarjetaDocente tarjetaDocente = new UcTarjetaDocente();
-                    tarjetaDocente.Dock = DockStyle.Fill;
-                    this.tableLayoutPanel1.Controls.Add(tarjetaDocente);
-                    break;
+                if (userControlActual != null)
+                {
+                    userControlActual.Dispose();
+                    userControlActual = null;
+                }
 
-                case "Estudiante":
-                    UcTarjetaEstudiante tarjetaEstudiante = new UcTarjetaEstudiante();
-                    tarjetaEstudiante.Dock = DockStyle.Fill;
-                    this.tableLayoutPanel1.Controls.Add(tarjetaEstudiante);
-                    break;
+                // Crear el control según el rol
+                switch (tipo_usuario)
+                {
+                    case "Admin":
+                        userControlActual = new UcTarjetaAdmin();
+                        break;
+                    case "Docente":
+                        userControlActual = new UcTarjetaDocente();
+                        break;
+                    case "Estudiante":
+                        userControlActual = new UcTarjetaEstudiante();
+                        break;
+                    case "Miembro de Iglesia":
+                        userControlActual = new UcTarjetaMiembro();
+                        break;
+                    default:
+                        MessageBox.Show("Rol de usuario no reconocido.",
+                            "Error del Sistema",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                        return;
+                }
 
-                case "Miembro de Iglesia":
-                    UcTarjetaMiembro tarjetaMiembro = new UcTarjetaMiembro();
-                    tarjetaMiembro.Dock = DockStyle.Fill;
-                    this.tableLayoutPanel1.Controls.Add(tarjetaMiembro);
-                    break;
+                if (userControlActual != null)
+                {
+                    // 🔥 NO usar DockStyle.Fill, mantener el tamaño original
+                    userControlActual.Dock = DockStyle.None;
+                    userControlActual.Location = new Point(0, 0);
 
-                default:
-                    MessageBox.Show("Rol de usuario no reconocido.", "Error del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
+                    panelContenedor.Controls.Add(userControlActual);
+
+                    // Ajustar el tamaño del panel al del control
+                    panelContenedor.Size = userControlActual.Size;
+
+                    // Ajustar el tamaño del formulario
+                    this.Size = new Size(
+                        userControlActual.Width + 30,  // + margen
+                        userControlActual.Height + 60   // + margen para barra de título
+                    );
+
+                    this.CenterToScreen();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar la interfaz: {ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
     }

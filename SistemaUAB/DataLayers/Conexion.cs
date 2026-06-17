@@ -12,7 +12,7 @@ namespace SistemaUAB.DataLayers
     public static class Conexion
     {
         // Cadena de conexión desde app.config o Settings
-        private static string cadenaConexion = "Data Source=DESKTOP-L1RCIQB\\SQLEXPRESS;Initial Catalog=SistemaReservasUAB;Integrated Security=True";
+        private static string cadenaConexion = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SistemaReservasUAB;Integrated Security=True";
 
         static Conexion()
         {

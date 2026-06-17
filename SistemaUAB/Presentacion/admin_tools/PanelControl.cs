@@ -1,5 +1,6 @@
 ﻿using SistemaUAB.DataLayers;
 using System;
+using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Threading.Tasks;
@@ -15,8 +16,18 @@ namespace SistemaUAB.Presentacion.admin_tools
         public PanelControl()
         {
             InitializeComponent();
-            InicializarTimer();
-            CargarDashboard();
+
+            if (!EstaEnModoDisenio())
+            {
+                InicializarTimer();
+                CargarDashboard();
+            }
+        }
+
+        private bool EstaEnModoDisenio()
+        {
+            return LicenseManager.UsageMode == LicenseUsageMode.Designtime ||
+                   (Site != null && Site.DesignMode);
         }
 
         /// <summary>
@@ -47,6 +58,9 @@ namespace SistemaUAB.Presentacion.admin_tools
         /// </summary>
         public void CargarDashboard()
         {
+            if (EstaEnModoDisenio())
+                return;
+
             // Mostrar indicador de carga
             MostrarCarga(true);
 
@@ -110,6 +124,23 @@ namespace SistemaUAB.Presentacion.admin_tools
             }
         }
 
+        /// <summary>
+        /// Método público para refrescar el panel (llamado desde UcTarjetaAdmin)
+        /// Este método es un alias de CargarDashboard() para mantener compatibilidad
+        /// </summary>
+        public void RefrescarPanel()
+        {
+            // Si el timer está activo, lo reiniciamos para evitar múltiples refrescos
+            if (timerActualizacion != null)
+            {
+                timerActualizacion.Stop();
+                timerActualizacion.Start();
+            }
+
+            // Cargar el dashboard
+            CargarDashboard();
+        }
+
         #region Métodos de Consulta a la Base de Datos
 
         /// <summary>
@@ -120,7 +151,8 @@ namespace SistemaUAB.Presentacion.admin_tools
             try
             {
                 string query = "SELECT COUNT(*) FROM Reserva";
-                return Convert.ToInt32(Helpers.ObtenerEscalar(query));
+                object resultado = Helpers.ObtenerEscalar(query);
+                return resultado != DBNull.Value && resultado != null ? Convert.ToInt32(resultado) : 0;
             }
             catch (Exception ex)
             {
@@ -136,7 +168,8 @@ namespace SistemaUAB.Presentacion.admin_tools
             try
             {
                 string query = "SELECT COUNT(*) FROM Reserva WHERE Estado = 'Activa'";
-                return Convert.ToInt32(Helpers.ObtenerEscalar(query));
+                object resultado = Helpers.ObtenerEscalar(query);
+                return resultado != DBNull.Value && resultado != null ? Convert.ToInt32(resultado) : 0;
             }
             catch (Exception ex)
             {
@@ -156,9 +189,10 @@ namespace SistemaUAB.Presentacion.admin_tools
                     FROM Reserva r
                     WHERE r.Estado = 'Activa' 
                     AND r.Fecha = CAST(GETDATE() AS DATE)
-                    AND GETDATE() BETWEEN r.HoraInicio AND r.HoraFin";
+                    AND CAST(GETDATE() AS TIME) BETWEEN r.HoraInicio AND r.HoraFin";
 
-                return Convert.ToInt32(Helpers.ObtenerEscalar(query));
+                object resultado = Helpers.ObtenerEscalar(query);
+                return resultado != DBNull.Value && resultado != null ? Convert.ToInt32(resultado) : 0;
             }
             catch (Exception ex)
             {
@@ -174,7 +208,8 @@ namespace SistemaUAB.Presentacion.admin_tools
             try
             {
                 string query = "SELECT COUNT(*) FROM Usuario WHERE Estado = 'Activo'";
-                return Convert.ToInt32(Helpers.ObtenerEscalar(query));
+                object resultado = Helpers.ObtenerEscalar(query);
+                return resultado != DBNull.Value && resultado != null ? Convert.ToInt32(resultado) : 0;
             }
             catch (Exception ex)
             {
@@ -202,7 +237,8 @@ namespace SistemaUAB.Presentacion.admin_tools
                     AND r.Estado = 'Activa'
                     ORDER BY r.HoraInicio ASC";
 
-                return Helpers.EjecutarQuery(query);
+                DataTable resultado = Helpers.EjecutarQuery(query);
+                return resultado ?? new DataTable();
             }
             catch (Exception ex)
             {
@@ -277,10 +313,10 @@ namespace SistemaUAB.Presentacion.admin_tools
             // Llenar grid con los datos
             foreach (DataRow row in data.Rows)
             {
-                string ambiente = row["Ambiente"].ToString();
-                string hora = row["HoraInicio"].ToString();
-                string usuario = row["Usuario"].ToString();
-                string estado = row["Estado"].ToString();
+                string ambiente = row["Ambiente"]?.ToString() ?? "";
+                string hora = row["HoraInicio"]?.ToString() ?? "";
+                string usuario = row["Usuario"]?.ToString() ?? "";
+                string estado = row["Estado"]?.ToString() ?? "";
 
                 int rowIndex = dgvProximasReservas.Rows.Add(ambiente, hora, usuario, estado);
 
@@ -314,10 +350,18 @@ namespace SistemaUAB.Presentacion.admin_tools
         /// </summary>
         private void MostrarCarga(bool mostrar)
         {
-            panelCarga.Visible = mostrar;
-            tableLayoutTarjetas.Enabled = !mostrar;
-            dgvProximasReservas.Enabled = !mostrar;
-            btnRefrescar.Enabled = !mostrar;
+            // Verificar que los controles existan antes de usarlos
+            if (panelCarga != null)
+                panelCarga.Visible = mostrar;
+
+            if (tableLayoutTarjetas != null)
+                tableLayoutTarjetas.Enabled = !mostrar;
+
+            if (dgvProximasReservas != null)
+                dgvProximasReservas.Enabled = !mostrar;
+
+            if (btnRefrescar != null)
+                btnRefrescar.Enabled = !mostrar;
 
             // Cambiar cursor según estado
             this.Cursor = mostrar ? Cursors.WaitCursor : Cursors.Default;
@@ -332,7 +376,7 @@ namespace SistemaUAB.Presentacion.admin_tools
         /// </summary>
         private void btnRefrescar_Click(object sender, EventArgs e)
         {
-            CargarDashboard();
+            RefrescarPanel();
         }
 
         /// <summary>
@@ -357,7 +401,7 @@ namespace SistemaUAB.Presentacion.admin_tools
         {
             base.OnLoad(e);
             // Recargar cuando el control se hace visible
-            if (!DesignMode)
+            if (!EstaEnModoDisenio())
             {
                 CargarDashboard();
             }

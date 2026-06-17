@@ -35,7 +35,7 @@ namespace SistemaUAB.Presentacion
             this.lblTitulo.ForeColor = System.Drawing.Color.White;
             this.lblTitulo.Location = new System.Drawing.Point(95, 25);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(327, 41);
+            this.lblTitulo.Size = new System.Drawing.Size(390, 48);
             this.lblTitulo.TabIndex = 1;
             this.lblTitulo.Text = "Sistema Reservas UAB";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -45,7 +45,7 @@ namespace SistemaUAB.Presentacion
             this.txtUsuario.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.txtUsuario.Location = new System.Drawing.Point(210, 127);
             this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(200, 32);
+            this.txtUsuario.Size = new System.Drawing.Size(200, 37);
             this.txtUsuario.TabIndex = 3;
             // 
             // lblUsuario
@@ -54,7 +54,7 @@ namespace SistemaUAB.Presentacion
             this.lblUsuario.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.lblUsuario.Location = new System.Drawing.Point(49, 127);
             this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(155, 25);
+            this.lblUsuario.Size = new System.Drawing.Size(178, 30);
             this.lblUsuario.TabIndex = 2;
             this.lblUsuario.Text = "Nombre Usuario:";
             // 
@@ -64,7 +64,7 @@ namespace SistemaUAB.Presentacion
             this.lblContrasena.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.lblContrasena.Location = new System.Drawing.Point(49, 182);
             this.lblContrasena.Name = "lblContrasena";
-            this.lblContrasena.Size = new System.Drawing.Size(112, 25);
+            this.lblContrasena.Size = new System.Drawing.Size(127, 30);
             this.lblContrasena.TabIndex = 4;
             this.lblContrasena.Text = "Contraseña:";
             // 
@@ -73,7 +73,7 @@ namespace SistemaUAB.Presentacion
             this.txtContrasena.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.txtContrasena.Location = new System.Drawing.Point(210, 182);
             this.txtContrasena.Name = "txtContrasena";
-            this.txtContrasena.Size = new System.Drawing.Size(200, 32);
+            this.txtContrasena.Size = new System.Drawing.Size(200, 37);
             this.txtContrasena.TabIndex = 5;
             this.txtContrasena.UseSystemPasswordChar = true;
             // 
@@ -111,15 +111,15 @@ namespace SistemaUAB.Presentacion
             this.panelSuperior.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelSuperior.Location = new System.Drawing.Point(0, 0);
             this.panelSuperior.Name = "panelSuperior";
-            this.panelSuperior.Size = new System.Drawing.Size(450, 80);
+            this.panelSuperior.Size = new System.Drawing.Size(505, 80);
             this.panelSuperior.TabIndex = 0;
             // 
             // FormLogin
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(450, 330);
+            this.ClientSize = new System.Drawing.Size(505, 330);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnIngresar);
             this.Controls.Add(this.txtContrasena);

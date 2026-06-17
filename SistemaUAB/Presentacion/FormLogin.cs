@@ -75,14 +75,20 @@ namespace SistemaUAB.Presentacion
 
                 if (credencialesValidas)
                 {
-                    // Abrir la ventana principal con el tipo de usuario
-                    this.Hide(); // Ocultar el formulario de login
-
+                    this.Hide(); // Ocultar FormLogin
                     Principal ventanaPrincipal = new Principal(tipo_usuario);
-                    ventanaPrincipal.FormClosed += (s, args) => this.Close(); // Cerrar la aplicación cuando se cierre Principal
-                    ventanaPrincipal.Show();
 
-                    // Cuando se cierre Principal, este formulario también se cerrará
+                    // Suscribirse al evento de cierre de Principal
+                    ventanaPrincipal.FormClosed += (s, args) =>
+                    {
+                        this.Show(); // Mostrar nuevamente FormLogin
+                        this.BringToFront(); // Traer al frente
+                        txtUsuario.Clear(); // Limpiar campos
+                        txtContrasena.Clear();
+                        txtUsuario.Focus(); // Enfocar en usuario
+                    };
+
+                    ventanaPrincipal.Show();
                 }
                 else
                 {
